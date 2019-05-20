@@ -1,6 +1,3 @@
-#ifndef BMP180_H
-#define BMP180_H
-
 #define BMP180_ADDR 0x77
 #define AC1_REG 0xAA
 #define AC2_REG 0xAC
@@ -40,4 +37,3 @@ double getTemperature();
 // Calculate altitude in m
 double getAltitude();
 
-#endif
