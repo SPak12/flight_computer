@@ -26,14 +26,14 @@ struct calibrationData {
 } cal;
 
 // Calibrate BMP180
-void calibrate();
+void calibrate(int fd);
 
 // Calibrate pressure in Pa
-int getPressure();
+int getPressure(int fd);
 
 // Calculate temperature in Celsius
-double getTemperature();
+double getTemperature(int fd);
 
 // Calculate altitude in m
-double getAltitude();
+double getAltitude(int fd);
 
