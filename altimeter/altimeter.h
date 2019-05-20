@@ -4,7 +4,7 @@
 #define AC3_REG 0xAE
 #define AC4_REG 0xB0
 #define AC5_REG 0xB2
-#define AC6_REG 0xB6
+#define AC6_REG 0xB4
 #define B1_REG 0xB6
 #define B2_REG 0xB8
 #define MB_REG 0xBA

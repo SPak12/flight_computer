@@ -2,18 +2,14 @@
 #include <stdint.h>
 #include <unistd.h>
 #include <math.h>
+#include <wiringPi.h>
 #include <wiringPiI2C.h>
 #include "altimeter.h"
 
-// Calibration parameters
-short ac1, ac2, ac3;
-unsigned short ac4, ac5, ac6;
-short b1, b2, mb, mc, md;
+int bmp180;
 
 // Over-Sampling Setting (0 to 4)
 const int OSS = 1;
-
-int bmp180;
 
 // Read calibrate data from the EEPROM of the BMP180
 void calibrate() {
@@ -32,7 +28,7 @@ void calibrate() {
 
 // Read uncompensated temperature value
 unsigned int readRawTemperature() {
-	wiringPiI2CWriteReg16(bmp180, 0xF4, 0x2E);
+	wiringPiI2CWriteReg8(bmp180, 0xF4, 0x2E);
 	usleep(4500);
 	unsigned int ut = wiringPiI2CReadReg16(bmp180, 0xF6);
 	return ut;
@@ -40,7 +36,7 @@ unsigned int readRawTemperature() {
 
 // Read uncompensated pressure value
 unsigned int readRawPressure() {
-	wiringPiI2CWriteReg16(bmp180, 0xF4, 0x34 + (OSS << 6));
+	wiringPiI2CWriteReg8(bmp180, 0xF4, 0x34 + (OSS << 6));
 	switch (OSS) {
 		case 0:
 			usleep(4500);
@@ -73,7 +69,7 @@ int compensateTemperature() {
 // Calculate true temperature
 double getTemperature() {
 	int rawTemperature = (compensateTemperature() + 8) >> 4;
-	return ((double) rawTemperature) / 10.0;
+	return ((double) rawTemperature) / 10;
 }
 
 // Calculate true pressure
@@ -104,17 +100,18 @@ double getAltitude() {
 }
 
 int main(int arc, char* argv[]) {
+	wiringPiSetup();
 	bmp180 = wiringPiI2CSetup(BMP180_ADDR);
-	while (bmp180) {
-		calibrate();	
+	while (bmp180 != -1) {
+		calibrate();
 		readRawTemperature();
 		readRawPressure();
 		double T = getTemperature();
 		double P = getPressure();
 		double a = getAltitude();
-		printf("T: %.2f\t", T);
-		printf("P: %.2f\t", P);
-		printf("a: %.2f\n", a);
+		printf("T: %.1f\t", T);
+		printf("P: %.0f\t", P);
+		printf("a: %.1f\n", a);
 	}
 }
 
