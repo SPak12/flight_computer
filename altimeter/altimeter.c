@@ -104,7 +104,7 @@ int main(int arc, char* argv[]) {
 		double T = getTemperature(fd);
 		double P = getPressure(fd);
 		double a = getAltitude(fd);
-		printf("T: %.1f C\t", T);
+		printf("Temperature: %.1f C\t", T);
 		printf("Pressure: %.0f Pa\t", P);
 		printf("Altitude: %.1f m\n", a);
 	}
