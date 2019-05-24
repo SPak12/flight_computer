@@ -122,17 +122,3 @@ double getAltitude(int fd) {
 	return 44330.0 * (1.0 - pow(pressure / 101325.0, (1.0 / 5.255)));
 }
 
-int main(int arc, char* argv[]) {
-	wiringPiSetup();
-	int fd = wiringPiI2CSetup(BMP180_ADDR);
-	while (fd > 0) {
-		calibrate(fd);
-		double T = getTemperature(fd);
-		double P = getPressure(fd);
-		double a = getAltitude(fd);
-		printf("Temperature: %.1f C\t", T);
-		printf("Pressure: %.0f Pa\t", P);
-		printf("Altitude: %.1f m\n", a);
-	}
-}
-
