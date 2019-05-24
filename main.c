@@ -20,7 +20,7 @@ void *telemetry(void *input) {
 }
 
 void *datalogging(void *input) {
-	FILE *flight_data = fopen("flight_data.txt", "w");
+	FILE *flight_data = fopen("flight_data.txt", "a");
 	if (flight_data == NULL) {
 		printf("\nError opening file!\n");
 		while(1); // Wait forever
