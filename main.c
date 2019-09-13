@@ -64,7 +64,6 @@ int main(int argc, char *argv[]) {
 		updateData(time, T, P, a); // Update data for this time step
 
 		// Telemetry and Datalogging (Multithreading)
-
 		pthread_t telemetry_t;
 		pthread_t datalogging_t;
 		
