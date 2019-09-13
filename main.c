@@ -25,7 +25,7 @@ void *datalogging(void *input) {
 		printf("\nError opening file!\n");
 		while(1); // Wait forever
 	}
-	fprintf(flight_data, "%.1f\t%.1f\n", data.time, data.altitude);
+	fprintf(flight_data, "%.2f\t%.2f\n", data.time, data.altitude);
 	fclose(flight_data);
 	return 0;
 }
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
 		double T = getTemperature(psens);
 		double P = getPressure(psens);
 		double a = getAltitude(psens);
-		printf("Time: %.2f\tTemperature: %.1f\tPressure: %.0f\tAltitude: %.1f\n", time, T, P, a);
+		printf("Time: %.2f\tTemperature: %.1f\tPressure: %.0f\tAltitude: %.2f\n", time, T, P, a);
 
 		updateData(time, T, P, a); // Update data for this time step
 
