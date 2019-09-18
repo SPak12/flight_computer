@@ -30,13 +30,6 @@ void *datalogging(void *input) {
 	return 0;
 }
 
-// Returns monotonic time since start in seconds
-uint64_t us_since_start(struct timespec start_time) {
-	struct timespec time;
-	clock_gettime(CLOCK_MONOTONIC_RAW, &time);
-	return (time.tv_sec - start_time.tv_sec) * 1e6 + (time.tv_nsec - start_time.tv_nsec) / 1e3;
-}
-
 // Updates data for telemetry and datalogging
 void updateData(double t, double T, double P, double a) {
 	data.time = t;
@@ -49,10 +42,9 @@ int main(int argc, char *argv[]) {
 	running = 1;
 	wiringPiSetup();
 	int psens = wiringPiI2CSetup(BMP180_ADDR);
-	struct timespec start_time;
-	clock_gettime(CLOCK_MONOTONIC_RAW, &start_time);
+	unsigned int start_time = millis();
 	while (running) {
-		double time = (double) us_since_start(start_time) / (double) 1e6;
+		double time = (double) (millis() - start_time) / (double) 1e3;
 
 		// BMP180
 		calibrate(psens);
