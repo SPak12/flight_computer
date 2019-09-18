@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <time.h>
-#include "altimeter.h"
+#include "bmp180.h"
 
 int running; // Flag
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
 		double T = getTemperature(psens);
 		double P = getPressure(psens);
 		double a = getAltitude(psens);
-		printf("Time: %.2f\tTemperature: %.1f\tPressure: %.0f\tAltitude: %.2f\n", time, T, P, a);
+		printf("Time: %.2f\tAltitude: %.2f\n", time, a);
 
 		updateData(time, T, P, a); // Update data for this time step
 
