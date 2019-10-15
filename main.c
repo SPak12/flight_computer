@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <time.h>
+#include <wiringPi.h>
+#include <wiringPiI2C.h>
 #include "bmp180.h"
 
 int running; // Flag
@@ -58,7 +59,7 @@ int main(int argc, char *argv[]) {
 		// Telemetry and Datalogging (Multithreading)
 		pthread_t telemetry_t;
 		pthread_t datalogging_t;
-		
+
 		pthread_create(&telemetry_t, NULL, telemetry, NULL);
 		pthread_create(&datalogging_t, NULL, datalogging, NULL);
 
