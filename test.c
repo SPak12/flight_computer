@@ -6,6 +6,7 @@
 #include "bmp280.h"
 
 int running; // Running flag
+int psens;
 
 void delay_ms(uint32_t period_ms);
 int8_t i2c_reg_write(uint8_t i2c_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t length);
@@ -15,7 +16,7 @@ void print_rslt(const char api_name[], int8_t rslt);
 int main(void) {
     running = 1;
     wiringPiSetup();
-    int psens = wiringPiI2CSetup(BMP280_I2C_ADDR_SEC); // 0x77
+    psens = wiringPiI2CSetup(BMP280_I2C_ADDR_SEC); // 0x77
 
     int8_t rslt;
     struct bmp280_dev bmp;
@@ -63,7 +64,7 @@ int8_t i2c_reg_write(uint8_t i2c_addr, uint8_t reg_addr, uint8_t *reg_data, uint
 
     /* Implement the I2C write routine according to the target machine. */
     for (int i = 0; i < length; i++) {
-        wiringPiI2CWriteReg8(psens, reg_addr + i, reg_data + i);
+        wiringPiI2CWriteReg8(psens, reg_addr + i, reg_data[i]);
     }
     return 0;
 }
@@ -86,7 +87,7 @@ int8_t i2c_reg_read(uint8_t i2c_addr, uint8_t reg_addr, uint8_t *reg_data, uint1
 
     /* Implement the I2C read routine according to the target machine. */
     for (int i = 0; i < length; i++) {
-        wiringPiI2CReadReg8(psens, reg_addr + i, reg_data + i);
+        reg_data[i] = wiringPiI2CReadReg8(psens, reg_addr + i);
     }
     return 0;
 }
