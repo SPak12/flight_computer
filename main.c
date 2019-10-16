@@ -25,10 +25,9 @@ int main(void) {
     bmp.intf = BMP280_I2C_INTF;
     bmp.read = i2c_reg_read;
     bmp.write = i2c_reg_write;
-
     rslt = bmp280_init(&bmp);
-    print_rslt(" bmp280_init status", rslt);
-
+    print_rslt("BMP280 initialization status: ", rslt);
+   
     return 0;
 }
 
