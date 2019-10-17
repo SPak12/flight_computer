@@ -9,12 +9,14 @@
 #include "imu.h"
 
 int running; // Running flag
+int psens;
+int imu;
 
 int main(void) {
     running = 1;
     wiringPiSetup();
-    int psens = wiringPiI2CSetup(BMP280_I2C_ADDR_PRIM); // 0x76
-    int imu = wiringPiI2CSetup(BNO055_I2C_ADDR1);
+    psens = wiringPiI2CSetup(BMP280_I2C_ADDR_PRIM); // 0x76
+    imu = wiringPiI2CSetup(BNO055_I2C_ADDR1);
 
     /* BMP280 */
     int8_t rslt;
@@ -29,6 +31,7 @@ int main(void) {
     print_rslt("BMP280 initialization status: ", rslt);
 
     /* BNO055 */
+    /*
     struct bno055_t bno;
     bno.BNO055_RD_FUNC_PTR = BNO055_I2C_bus_read;
     bno.BNO055_WR_FUNC_PTR = BNO055_I2C_bus_write;
@@ -49,6 +52,7 @@ int main(void) {
     bno055_get_gyro_calib_stat(&gyro_calib_status);
     bno055_get_mag_calib_stat(&mag_calib_status);
     bno055_get_sys_calib_stat(&sys_calib_status);
+    */
 
     return 0;
 }
