@@ -12,7 +12,7 @@ int main(void) {
     running = 1;
     wiringPiSetup();
     int psens = wiringPiI2CSetup(BMP280_I2C_ADDR_PRIM); // 0x76
-    int imu = wiringPiI2CSetup(BNO055_I2C_ADDR1)
+    int imu = wiringPiI2CSetup(BNO055_I2C_ADDR1);
 
     /* BMP280 */
     int8_t rslt;
