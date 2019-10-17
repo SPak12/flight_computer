@@ -5,6 +5,8 @@
 #include <wiringPiI2C.h>
 #include "bmp280.h"
 #include "bno055.h"
+#include "altimeter.h"
+#include "imu.h"
 
 int running; // Running flag
 
