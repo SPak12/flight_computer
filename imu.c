@@ -1,6 +1,6 @@
+#include "bno055.h"
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
-#include "bno055.h"
 
 /*----------------------------------------------------------------------------*
  *  The following APIs are used for reading and writing of
@@ -525,6 +525,7 @@ s8 BNO055_I2C_bus_read(u8 dev_addr, u8 reg_addr, u8 *reg_data, u8 cnt)
 void BNO055_delay_msek(u32 msek)
 {
 	/*Here you can write your own delay routine*/
+    delay(msek);
 }
 
 #endif
