@@ -1,3 +1,5 @@
+#include "stdio.h"
+#include "bmp280.h"
 #include "altimeter.h"
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
@@ -33,6 +35,7 @@ int8_t i2c_reg_write(uint8_t i2c_addr, uint8_t reg_addr, uint8_t *reg_data, uint
 {
 
     /* Implement the I2C write routine according to the target machine. */
+    int psens = wiringPiI2CSetup(i2c_addr);
     for (int i = 0; i < length; i++) {
         wiringPiI2CWriteReg8(psens, reg_addr + i, reg_data[i]);
     }
@@ -56,6 +59,7 @@ int8_t i2c_reg_read(uint8_t i2c_addr, uint8_t reg_addr, uint8_t *reg_data, uint1
 {
 
     /* Implement the I2C read routine according to the target machine. */
+    int psens = wiringPiI2CSetup(i2c_addr);
     for (int i = 0; i < length; i++) {
         reg_data[i] = wiringPiI2CReadReg8(psens, reg_addr + i);
     }
