@@ -10,6 +10,7 @@
 #include "imu.h"
 
 int running; // Running flag
+int psens;
 
 int main(void) {
     running = 1;
@@ -22,6 +23,8 @@ int main(void) {
     double pressure;
     double altitude;
     double temperature;
+
+    psens = wiringPiI2CSetup(BMP280_I2C_ADDR_PRIM);
 
     bmp.dev_id = BMP280_I2C_ADDR_PRIM;
     bmp.read = i2c_reg_read;
@@ -42,7 +45,7 @@ int main(void) {
 	bmp280_get_comp_pres_double(&pressure, ucomp_data.uncomp_press, &bmp);
 	bmp280_get_comp_temp_double(&temperature, ucomp_data.uncomp_temp, &bmp);
 	altitude = (pow(101325/pressure, 1/5.257) - 1)*(temperature + 273.15)/0.0065;
-	printf("%.1f m\n", altitude);
+	printf("P: %.1f Pa\t A: %.1f m\t T: %.1f C\n", pressure, altitude, temperature);
 	bmp.delay_ms(100);
     }
 
