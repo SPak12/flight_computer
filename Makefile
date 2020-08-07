@@ -8,3 +8,6 @@ OBJ = main.o altimeter.o ./BMP280_driver/bmp280.o
 
 main: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
+
+clean:
+	rm -f ./*o ./BMP280_driver/bmp280.o
