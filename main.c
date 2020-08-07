@@ -4,12 +4,15 @@
 #include <pthread.h>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
+#include "time.h"
 #include "bmp280.h"
 #include "bno055.h"
 #include "altimeter.h"
 #include "imu.h"
 
 int running; // Running flag
+unsigned int startTime, endTime;
+double currTime;
 int psens;
 
 int main(void) {
@@ -17,6 +20,8 @@ int main(void) {
     wiringPiSetup();
 
     /* BMP280 */
+    printf("Initializing BMP280...\t");
+    delay(1000);
     struct bmp280_dev bmp;
     struct bmp280_config conf;
     struct bmp280_uncomp_data ucomp_data;
@@ -32,20 +37,30 @@ int main(void) {
     bmp.delay_ms = delay_ms;
     bmp.intf = BMP280_I2C_INTF;
 
-    bmp280_init(&bmp);
+    uint8_t rslt = bmp280_init(&bmp);
+    if (rslt != BMP280_OK) {
+	print_rslt("Fail!\n", rslt);
+	return 0;
+    } else {
+	printf("Success!\n");
+	delay(1000);
+    }
     bmp280_get_config(&conf, &bmp);
     conf.filter = BMP280_FILTER_COEFF_4;
     conf.os_pres = BMP280_OS_4X;
     conf.odr = BMP280_ODR_0_5_MS;
     bmp280_set_config(&conf, &bmp);
     bmp280_set_power_mode(BMP280_NORMAL_MODE, &bmp);
-    
+
+    startTime = millis();
     while (running) {
+	endTime = millis();
+	currTime = (double) (endTime - startTime) / (double) 1000;
 	bmp280_get_uncomp_data(&ucomp_data, &bmp);
 	bmp280_get_comp_pres_double(&pressure, ucomp_data.uncomp_press, &bmp);
 	bmp280_get_comp_temp_double(&temperature, ucomp_data.uncomp_temp, &bmp);
 	altitude = (pow(101325/pressure, 1/5.257) - 1)*(temperature + 273.15)/0.0065;
-	printf("P: %.1f Pa\t A: %.1f m\t T: %.1f C\n", pressure, altitude, temperature);
+	printf("t: %.2f\tP: %.0f Pa\t A: %.1f m\t T: %.1f C\n", currTime, pressure, altitude, temperature);
 	bmp.delay_ms(100);
     }
 
