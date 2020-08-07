@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
-#include "time.h"
 #include "bmp280.h"
 #include "bno055.h"
 #include "altimeter.h"
